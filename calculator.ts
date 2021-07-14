@@ -6,6 +6,7 @@ export class Calculator {
     private newLine = '\\n';
     private indicatorOfDifferentDelimiter = '//';
     private delimiter = ',';
+    private errorAccumulator = '';
 
     constructor(private value: string) {
         this.init();
@@ -36,45 +37,33 @@ export class Calculator {
         this.value = this.value.replace(this.newLine, this.delimiter);
     }
 
+    private accumulator(e: Error): void {
+        if (this.errorAccumulator) this.errorAccumulator += this.newLine;
+        this.errorAccumulator += e.message;
+    }
+
     private validator(): void {
-        let errorAccumulator = '';
         try {
             this.valueEndsWithDelimiter();
         } catch (e) {
-            if (errorAccumulator) errorAccumulator += this.newLine;
-            errorAccumulator += e.message;
+            this.accumulator(e);
         }
         try {
             this.onlyPositiveNumber();
         } catch (e) {
-            if (errorAccumulator) errorAccumulator += this.newLine;
-            errorAccumulator += e.message;
+            this.accumulator(e);
         }
-        let negativeNumbers: string[] = this.getValueSplitted().filter(val => isNaN(Number(val)));
         try {
-            if (negativeNumbers.length) {
-                const copy = [...negativeNumbers];
-                copy.forEach((input, i) => {
-                    if (isNaN(Number(input))) {
-                        const delimiter = input[input.toString().search(/\D/)];
-                        const newInputs = input.split(delimiter);
-                        negativeNumbers.splice(i, 1);
-                        negativeNumbers.splice(i, 0, newInputs[0], newInputs[1]);
-                    }
-                });
-                this.onlyPositiveNumber(negativeNumbers);
-            }
+            this.onlyPositiveIfNaN();
         } catch (e) {
-            if (errorAccumulator) errorAccumulator += this.newLine;
-            errorAccumulator += e.message;
+            this.accumulator(e);
         }
         try {
             this.delimiterIncorrect();
         } catch (e) {
-            if (errorAccumulator) errorAccumulator += this.newLine;
-            errorAccumulator += e.message;
+            this.accumulator(e);
         }
-        if (errorAccumulator) throw new Error(errorAccumulator);
+        if (this.errorAccumulator) throw new Error(this.errorAccumulator);
     }
 
     private valueEndsWithDelimiter(): void {
@@ -91,12 +80,26 @@ export class Calculator {
     }
 
     private onlyPositiveNumber(valueToCheck = this.getValueSplitted()): void {
-        const entriesSplitted: string[] = valueToCheck;
-        const negativeNumbers: string[] = entriesSplitted.filter(val => Number(val) < 0);
+        const negativeNumbers: string[] = valueToCheck.filter(val => Number(val) < 0);
         if (negativeNumbers.length > 0) {
             let negativeValues: string = negativeNumbers[0].toString();
             if (negativeNumbers.length > 1) negativeValues = negativeNumbers.join(', ');
             throw new ErrorNegativeNumber(negativeValues);
+        }
+    }
+
+    private onlyPositiveIfNaN(): void {
+        const notANumberValue: string[] = this.getValueSplitted().filter(val => isNaN(Number(val)));
+        if (notANumberValue.length) {
+            [...notANumberValue].forEach((input, i) => {
+                if (isNaN(Number(input))) {
+                    const delimiter = input[input.toString().search(/\D/)];
+                    const newInputs = input.split(delimiter);
+                    notANumberValue.splice(i, 1);
+                    notANumberValue.splice(i, 0, newInputs[0], newInputs[1]);
+                }
+            });
+            this.onlyPositiveNumber(notANumberValue);
         }
     }
 
