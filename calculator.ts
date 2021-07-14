@@ -99,8 +99,7 @@ export class Calculator {
                 if (isNaN(Number(input))) {
                     const delimiter = input[input.toString().search(/\D/)];
                     const newInputs = input.split(delimiter);
-                    notANumberValue.splice(i, 1);
-                    notANumberValue.splice(i, 0, newInputs[0], newInputs[1]);
+                    notANumberValue.splice(i, 1, newInputs[0], newInputs[1]);
                 }
             });
             this.onlyPositiveNumber(notANumberValue);
