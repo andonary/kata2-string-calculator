@@ -51,4 +51,15 @@ describe('String calculator', () => {
         //Assert
         expect(result).toEqual(3);
     });
+
+    test('with 10,11 I should get 21', async () => {
+        // Arrange
+        input = '10,11';
+
+        // Act
+        actStringCalculator();
+
+        //Assert
+        expect(result).toEqual(21);
+    });
 });
