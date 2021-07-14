@@ -156,4 +156,15 @@ describe('String calculator', () => {
         //Assert
         expect(act).toThrow('Negative number(s) not allowed: -4, -9');
     });
+
+    test('with //|\\n1|2,-3 I should get multiple line error', async () => {
+        // Arrange
+        input = '//|\\n1|2,-3';
+
+        // Act
+        const act = () => actStringCalculator();
+
+        //Assert
+        expect(act).toThrow('Negative number(s) not allowed: -3\\n| expected but "," found at position 3')
+    });
 });

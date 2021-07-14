@@ -37,9 +37,44 @@ export class Calculator {
     }
 
     private validator(): void {
-        this.valueEndsWithDelimiter();
-        this.delimiterIncorrect();
-        this.onlyPositiveNumber();
+        let errorAccumulator = '';
+        try {
+            this.valueEndsWithDelimiter();
+        } catch (e) {
+            if (errorAccumulator) errorAccumulator += this.newLine;
+            errorAccumulator += e.message;
+        }
+        try {
+            this.onlyPositiveNumber();
+        } catch (e) {
+            if (errorAccumulator) errorAccumulator += this.newLine;
+            errorAccumulator += e.message;
+        }
+        let negativeNumbers: string[] = this.getValueSplitted().filter(val => isNaN(Number(val)));
+        try {
+            if (negativeNumbers.length) {
+                const copy = [...negativeNumbers];
+                copy.forEach((input, i) => {
+                    if (isNaN(Number(input))) {
+                        const delimiter = input[input.toString().search(/\D/)];
+                        const newInputs = input.split(delimiter);
+                        negativeNumbers.splice(i, 1);
+                        negativeNumbers.splice(i, 0, newInputs[0], newInputs[1]);
+                    }
+                });
+                this.onlyPositiveNumber(negativeNumbers);
+            }
+        } catch (e) {
+            if (errorAccumulator) errorAccumulator += this.newLine;
+            errorAccumulator += e.message;
+        }
+        try {
+            this.delimiterIncorrect();
+        } catch (e) {
+            if (errorAccumulator) errorAccumulator += this.newLine;
+            errorAccumulator += e.message;
+        }
+        if (errorAccumulator) throw new Error(errorAccumulator);
     }
 
     private valueEndsWithDelimiter(): void {
@@ -55,14 +90,18 @@ export class Calculator {
         }
     }
 
-    private onlyPositiveNumber(): void {
-        const entriesSplitted: string[] = this.value.split(this.delimiter);
+    private onlyPositiveNumber(valueToCheck = this.getValueSplitted()): void {
+        const entriesSplitted: string[] = valueToCheck;
         const negativeNumbers: string[] = entriesSplitted.filter(val => Number(val) < 0);
         if (negativeNumbers.length > 0) {
             let negativeValues: string = negativeNumbers[0].toString();
             if (negativeNumbers.length > 1) negativeValues = negativeNumbers.join(', ');
             throw new ErrorNegativeNumber(negativeValues);
         }
+    }
+
+    getValueSplitted(): string[] {
+        return this.value.split(this.delimiter);
     }
 
     public add(): number {
