@@ -1,4 +1,5 @@
-import {Entry, stringCalculator} from "../index";
+import {stringCalculator} from "../index";
+import {Entry} from "../errors/entry";
 
 describe('String calculator', () => {
     let input: string;
