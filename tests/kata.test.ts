@@ -78,4 +78,15 @@ describe('String calculator', () => {
         //Assert
         expect(result).toEqual(6);
     });
+
+    test('with 1,2\\n3 I should get 6', async () => {
+        // Arrange
+        input = '1,2\\n3';
+
+        // Act
+        actStringCalculator();
+
+        //Assert
+        expect(result).toEqual(6);
+    });
 });
