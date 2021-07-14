@@ -4,6 +4,11 @@ describe('String calculator', () => {
     let input: string;
     let result: number;
 
+    beforeEach(() => {
+        input = '';
+        result = NaN;
+    });
+
     const actStringCalculator = () => {
         result = stringCalculator(input);
     }
@@ -61,5 +66,16 @@ describe('String calculator', () => {
 
         //Assert
         expect(result).toEqual(21);
+    });
+
+    test('with 1,2,3 I should get 6', async () => {
+        // Arrange
+        input = '1,2,3';
+
+        // Act
+        actStringCalculator();
+
+        //Assert
+        expect(result).toEqual(6);
     });
 });
