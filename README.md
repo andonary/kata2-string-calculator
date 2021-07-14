@@ -1,6 +1,13 @@
-# Source
+# What is this project
 
+This is my resolution of one of exercises mentionned here :
 <https://tddmanifesto.com/exercises/>
+
+execute code :
+
+```
+npm run test
+```
 
 # Kata 2 – String calculator
 Create a simple calculator that takes a String and returns a integer
