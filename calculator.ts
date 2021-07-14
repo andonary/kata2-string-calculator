@@ -1,5 +1,5 @@
-import {Entry} from "./errors/entry";
-import {ErrorHandler} from "./errors/errorHandler";
+import {ErrorInvalid} from "./errors/errorInvalid";
+import {ErrorMultipleDelimiter} from "./errors/errorMultipleDelimiter";
 
 export class Calculator {
     private newLine = '\\n';
@@ -41,7 +41,7 @@ export class Calculator {
     }
 
     private valueEndsWithDelimiter(): void {
-        if (this.value.endsWith(this.delimiter)) throw new ErrorHandler(Entry.invalid);
+        if (this.value.endsWith(this.delimiter)) throw new ErrorInvalid();
     }
 
     private delimiterIncorrect(): void {
@@ -49,7 +49,7 @@ export class Calculator {
         const invalidValIndex: number = entriesSplitted.findIndex(val => isNaN(Number(val)));
         if (invalidValIndex > -1) {
             const indexInvalid = this.value.indexOf(entriesSplitted[invalidValIndex]) + entriesSplitted[invalidValIndex].toString().search(/\D/);
-            throw new ErrorHandler(Entry.multipleDelimiter, [this.delimiter, this.value[indexInvalid], indexInvalid.toString()]);
+            throw new ErrorMultipleDelimiter([this.delimiter, this.value[indexInvalid], indexInvalid.toString()]);
         }
     }
 
