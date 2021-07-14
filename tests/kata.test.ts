@@ -167,4 +167,15 @@ describe('String calculator', () => {
         //Assert
         expect(act).toThrow('Negative number(s) not allowed: -3\\n| expected but "," found at position 3')
     });
+
+    test('with 2,1001 I should get 2 since big number are ignored', async () => {
+        // Arrange
+        input = '2,1001';
+
+        // Act
+        actStringCalculator();
+
+        //Assert
+        expect(result).toEqual(2);
+    });
 });

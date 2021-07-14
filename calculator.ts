@@ -114,6 +114,11 @@ export class Calculator {
     public add(): number {
         return this.value
             .split(this.delimiter)
-            .reduce((accumulator, entry) => accumulator + Number(entry ?? 0), 0);
+            .reduce((accumulator, entry) => accumulator + this.entryParsed(entry), 0);
+    }
+
+    private entryParsed(entry: string): number {
+        const result = Number(entry ?? 0);
+        return result < 1000 ? result : 0;
     }
 }
