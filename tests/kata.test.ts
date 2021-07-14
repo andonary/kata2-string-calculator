@@ -1,4 +1,4 @@
-import {stringCalculator} from "../index";
+import {Entry, stringCalculator} from "../index";
 
 describe('String calculator', () => {
     let input: string;
@@ -88,5 +88,16 @@ describe('String calculator', () => {
 
         //Assert
         expect(result).toEqual(6);
+    });
+
+    test('with 1,2, I should get an error', async () => {
+        // Arrange
+        input = '1,2,';
+
+        // Act
+        const act = () => actStringCalculator();
+
+        //Assert
+        expect(act).toThrow(Entry.invalid);
     });
 });
