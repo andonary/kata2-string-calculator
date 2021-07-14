@@ -57,9 +57,11 @@ export class Calculator {
 
     private onlyPositiveNumber(): void {
         const entriesSplitted: string[] = this.value.split(this.delimiter);
-        const invalidValIndex: number = entriesSplitted.findIndex(val => Number(val) < 0);
-        if (invalidValIndex > -1) {
-            throw new ErrorNegativeNumber([entriesSplitted[invalidValIndex].toString()]);
+        const negativeNumbers: string[] = entriesSplitted.filter(val => Number(val) < 0);
+        if (negativeNumbers.length > 0) {
+            let negativeValues: string = negativeNumbers[0].toString();
+            if (negativeNumbers.length > 1) negativeValues = negativeNumbers.join(', ');
+            throw new ErrorNegativeNumber(negativeValues);
         }
     }
 

@@ -1,9 +1,9 @@
 import {Entry} from "./entry";
 
 export class ErrorNegativeNumber extends Error {
-    constructor(variables: string[], msg?: string) {
+    constructor(listNegativeNumber: string, msg?: string) {
         msg = Entry.negativeNumber
-            .replace('%d', variables[0]);
+            .replace('%d', listNegativeNumber);
         super(msg);
     }
 }

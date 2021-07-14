@@ -145,4 +145,15 @@ describe('String calculator', () => {
         //Assert
         expect(act).toThrow('Negative number(s) not allowed: -2');
     });
+
+    test('with 2,-4,-9 I should get an error', async () => {
+        // Arrange
+        input = '2,-4,-9';
+
+        // Act
+        const act = () => actStringCalculator();
+
+        //Assert
+        expect(act).toThrow('Negative number(s) not allowed: -4, -9');
+    });
 });
