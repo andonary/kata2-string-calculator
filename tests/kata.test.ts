@@ -122,4 +122,15 @@ describe('String calculator', () => {
         //Assert
         expect(act).toThrow(Entry.invalid);
     });
+
+    test('with //|\\n1|2,3 I should get an error', async () => {
+        // Arrange
+        input = '//|\\n1|2,3';
+
+        // Act
+        const act = () => actStringCalculator();
+
+        //Assert
+        expect(act).toThrow('| expected but "," found at position 3');
+    });
 });
