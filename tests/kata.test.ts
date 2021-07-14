@@ -100,4 +100,15 @@ describe('String calculator', () => {
         //Assert
         expect(act).toThrow(Entry.invalid);
     });
+
+    test('with //;\\n1;3 I should get 4', async () => {
+        // Arrange
+        input = '//;\\n1;3';
+
+        // Act
+        actStringCalculator();
+
+        //Assert
+        expect(result).toEqual(4);
+    });
 });
