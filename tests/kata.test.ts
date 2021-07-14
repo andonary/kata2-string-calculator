@@ -29,4 +29,15 @@ describe('String calculator', () => {
         //Assert
         expect(result).toEqual(1);
     });
+
+    test('with 2 I should get 2', async () => {
+        // Arrange
+        input = '2';
+
+        // Act
+        actStringCalculator();
+
+        //Assert
+        expect(result).toEqual(2);
+    });
 });

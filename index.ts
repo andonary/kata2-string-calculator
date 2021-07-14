@@ -1,4 +1,4 @@
 export function stringCalculator(entry: string) {
-    if (entry) return 1;
+    if (entry) return Number(entry);
     return 0;
 }
