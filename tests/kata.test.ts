@@ -134,4 +134,15 @@ describe('String calculator', () => {
         //Assert
         expect(act).toThrow('| expected but "," found at position 3');
     });
+
+    test('with 1,-2 I should get an error', async () => {
+        // Arrange
+        input = '1,-2';
+
+        // Act
+        const act = () => actStringCalculator();
+
+        //Assert
+        expect(act).toThrow('Negative number(s) not allowed: -2');
+    });
 });

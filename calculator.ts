@@ -1,5 +1,6 @@
 import {ErrorInvalid} from "./errors/errorInvalid";
 import {ErrorMultipleDelimiter} from "./errors/errorMultipleDelimiter";
+import {ErrorNegativeNumber} from "./errors/errorNegativeNumber";
 
 export class Calculator {
     private newLine = '\\n';
@@ -38,6 +39,7 @@ export class Calculator {
     private validator(): void {
         this.valueEndsWithDelimiter();
         this.delimiterIncorrect();
+        this.onlyPositiveNumber();
     }
 
     private valueEndsWithDelimiter(): void {
@@ -50,6 +52,14 @@ export class Calculator {
         if (invalidValIndex > -1) {
             const indexInvalid = this.value.indexOf(entriesSplitted[invalidValIndex]) + entriesSplitted[invalidValIndex].toString().search(/\D/);
             throw new ErrorMultipleDelimiter([this.delimiter, this.value[indexInvalid], indexInvalid.toString()]);
+        }
+    }
+
+    private onlyPositiveNumber(): void {
+        const entriesSplitted: string[] = this.value.split(this.delimiter);
+        const invalidValIndex: number = entriesSplitted.findIndex(val => Number(val) < 0);
+        if (invalidValIndex > -1) {
+            throw new ErrorNegativeNumber([entriesSplitted[invalidValIndex].toString()]);
         }
     }
 
