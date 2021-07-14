@@ -111,4 +111,15 @@ describe('String calculator', () => {
         //Assert
         expect(result).toEqual(4);
     });
+
+    test('with //sep\\n2sep5sep I should get an error', async () => {
+        // Arrange
+        input = '//sep\\n2sep5sep';
+
+        // Act
+        const act = () => actStringCalculator();
+
+        //Assert
+        expect(act).toThrow(Entry.invalid);
+    });
 });
