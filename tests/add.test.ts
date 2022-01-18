@@ -43,14 +43,34 @@ describe("Add string calculator", () => {
       expectedResult: 9,
     },
     {
-      itMsg: "it should warn me if I made a mistake in syntax",
+      itMsg: "it should not support invalid syntax",
       stringNumbers: "1,2,\n3",
-      expectedError: true,
+      expectedError: "invalid syntax",
     },
     {
       itMsg: "it should change delimiter with the one I inform",
       stringNumbers: "//;\n1;2\n3",
       expectedResult: 6,
+    },
+    {
+      itMsg: "it should not support one negative number",
+      stringNumbers: "-1,2\n3",
+      expectedError: "negatives not allowed: -1",
+    },
+    {
+      itMsg: "it should not support multiple negative number",
+      stringNumbers: "-1,-2\n3",
+      expectedError: "negatives not allowed: -1,-2",
+    },
+    {
+      itMsg: "it should not support invalid syntax and negative number",
+      stringNumbers: "-1,-2,\n3",
+      expectedError: "invalid syntax\nnegatives not allowed: -1,-2",
+    },
+    {
+      itMsg: "it should ignore number bigger than 1000",
+      stringNumbers: "1001,2",
+      expectedResult: 2,
     },
   ])("$itMsg", (cases) => {
     // Arrange
@@ -60,7 +80,7 @@ describe("Add string calculator", () => {
     const result: number = expectedError ? NaN : Add(stringNumbers);
 
     // Assert
-    if (expectedError) expect(() => Add(stringNumbers)).toThrow();
+    if (expectedError) expect(() => Add(stringNumbers)).toThrow(expectedError);
     else expect(result).toEqual(expectedResult);
   });
 });
